@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic Christmas - Smooth Rotation</title>
+    <title>Magic Christmas - Smooth Rotation 6 Photos</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -69,26 +69,6 @@
         }
 
         #error-log { display: none; position: absolute; top: 0; left: 0; color: red; background: rgba(0,0,0,0.8); z-index: 999; padding: 10px; }
-
-        #ai-message-container {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%; max-width: 600px;
-            text-align: center; z-index: 200;
-            pointer-events: none; display: none; 
-        }
-
-        #ai-message {
-            font-family: 'Times New Roman', serif;
-            font-size: 24px; font-weight: bold;
-            color: #FFD700; 
-            text-shadow: 2px 2px 4px #000000;
-            background-color: rgba(0, 0, 0, 0.8); 
-            padding: 20px; border-radius: 15px;
-            border: 2px solid #FFD700;
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -99,10 +79,8 @@
             🖐 Open: Bung Quà &nbsp;•&nbsp; 🫶 Heart: Yêu Thương &nbsp;•&nbsp; ✊ Fist: Cây Thông
         </div>
         <button id="btnStart" onclick="startSystem()">MERRY CHRISTMAS</button>
-        <button id="btnAI" onclick="generateWishes()">✨ LỜI CHÚC </button> 
     </div>
 
-    <div id="ai-message-container"><div id="ai-message"></div></div>
     <div id="copyright">© Magic Christmas</div>
 
     <div id="canvas-container"></div>
@@ -111,35 +89,6 @@
 
     <script>
         // ==========================================
-        // 0. GEMINI API
-        // ==========================================
-        const apiKey = "AIzaSyDvxFnvWBVjmy4jVvAOovtrS_WKmhCvcjY"; 
-
-        async function generateWishes() {
-            const messageElement = document.getElementById('ai-message');
-            const containerElement = document.getElementById('ai-message-container');
-            containerElement.style.display = 'block';
-            messageElement.innerText = "Đang nhờ ông già Noel viết lời chúc... ✨";
-            const prompt = "Hãy viết một lời chúc Giáng sinh ngắn gọn, ấm áp, vui tươi và độc đáo bằng tiếng Việt (dưới 30 từ). Có thể thêm emoji.";
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                const result = await response.json();
-                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (text) {
-                    messageElement.innerText = text;
-                    setTimeout(() => { containerElement.style.display = 'none'; }, 10000);
-                } else messageElement.innerText = "Giáng sinh an lành! (Lỗi kết nối)";
-            } catch (error) {
-                messageElement.innerText = "Chúc bạn một mùa Giáng sinh tràn đầy niềm vui! 🎄🎅";
-            }
-        }
-
-        // ==========================================
         // 1. TÀI NGUYÊN
         // ==========================================
         const MUSIC_URL = "./audio.mp3";
@@ -147,8 +96,8 @@
         bgMusic.loop = true; bgMusic.volume = 1.0;
 
         const loader = new THREE.TextureLoader();
-        // CẬP NHẬT: 5 ẢNH
-        const photoFiles = ['./image1.jpg', './image2.jpg', './image3.jpg', './image4.jpg', './image5.jpg'];
+        // CẬP NHẬT: 6 ẢNH CHO VÒNG XOAY TRÒN
+        const photoFiles = ['./image1.jpg', './image2.jpg', './image3.jpg', './image4.jpg', './image5.jpg', './image6.jpg'];
         const photoTextures = [];
         photoFiles.forEach((f, i) => {
             const tex = loader.load(f);
@@ -344,7 +293,8 @@
             const borderGeo = new THREE.PlaneGeometry(8.4, 10.4); 
             const borderMat = new THREE.MeshBasicMaterial({ color: 0xD4AF37 }); 
 
-            for(let i=0; i<5; i++) {
+            // CẬP NHẬT: Vòng lặp cho 6 ảnh
+            for(let i=0; i<6; i++) {
                 const mat = new THREE.MeshBasicMaterial({ map: photoTextures[i], side: THREE.DoubleSide, transparent: false });
                 const mesh = new THREE.Mesh(geo, mat);
                 const border = new THREE.Mesh(borderGeo, borderMat);
@@ -448,8 +398,8 @@
             updateParticleGroup(groupCandy, 'candy', speed, time); 
             updateParticleGroup(groupGift, 'gift', speed, time);
 
-            // LOGIC ẢNH XOAY TRÒN
-            const angleStep = (Math.PI * 2) / 5;
+            // LOGIC ẢNH XOAY TRÒN (6 Ảnh)
+            const angleStep = (Math.PI * 2) / 6;
             let bestIdx = 0; let maxZ = -999;
 
             photoMeshes.forEach((mesh, i) => {
