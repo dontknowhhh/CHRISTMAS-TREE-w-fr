@@ -113,7 +113,7 @@
         // ==========================================
         // 0. GEMINI API
         // ==========================================
-        const apiKey = ""; 
+        const apiKey = "AIzaSyDvxFnvWBVjmy4jVvAOovtrS_WKmhCvcjY"; 
 
         async function generateWishes() {
             const messageElement = document.getElementById('ai-message');
@@ -147,8 +147,8 @@
         bgMusic.loop = true; bgMusic.volume = 1.0;
 
         const loader = new THREE.TextureLoader();
-        // 6 ẢNH CHO VÒNG XOAY TRÒN
-        const photoFiles = ['./image1.jpg', './image2.jpg', './image3.jpg', './image4.jpg', './image5.jpg', './image6.jpg'];
+        // CẬP NHẬT: 5 ẢNH
+        const photoFiles = ['./image1.jpg', './image2.jpg', './image3.jpg', './image4.jpg', './image5.jpg'];
         const photoTextures = [];
         photoFiles.forEach((f, i) => {
             const tex = loader.load(f);
@@ -344,7 +344,7 @@
             const borderGeo = new THREE.PlaneGeometry(8.4, 10.4); 
             const borderMat = new THREE.MeshBasicMaterial({ color: 0xD4AF37 }); 
 
-            for(let i=0; i<6; i++) {
+            for(let i=0; i<5; i++) {
                 const mat = new THREE.MeshBasicMaterial({ map: photoTextures[i], side: THREE.DoubleSide, transparent: false });
                 const mesh = new THREE.Mesh(geo, mat);
                 const border = new THREE.Mesh(borderGeo, borderMat);
@@ -449,7 +449,7 @@
             updateParticleGroup(groupGift, 'gift', speed, time);
 
             // LOGIC ẢNH XOAY TRÒN
-            const angleStep = (Math.PI * 2) / 6;
+            const angleStep = (Math.PI * 2) / 5;
             let bestIdx = 0; let maxZ = -999;
 
             photoMeshes.forEach((mesh, i) => {
